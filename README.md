@@ -1,6 +1,6 @@
 # AWS DeepRacer Hackathon
 
-The AWS DeepRaer Hackathon hoster by the University of Victoria is an exciting opportunity for us to dive into machine learning. Through this 
+The AWS DeepRacer Hackathon hoster by the University of Victoria is an exciting opportunity for us to dive into machine learning. Through this 
 Hacathon we will explore reinforcement learning, and build an autonoumous racing model wich will be implemented on a AWS DeepRacer, a 1/18th scale
 car designed to race using AI.
 

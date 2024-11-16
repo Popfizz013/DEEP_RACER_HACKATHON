@@ -1,4 +1,4 @@
-def reward_function(params):
+def follow_center_line(params):
     '''
     Example of rewarding the agent to follow center line
     '''
@@ -25,7 +25,7 @@ def reward_function(params):
     return float(reward)
 
 # Stay between the lines
-def reward_function(params):
+def stay_between_lines(params):
     '''
     Example of rewarding the agent to follow center line
     '''

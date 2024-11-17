@@ -18,11 +18,11 @@ def reward_function(params):
     cur_heading: float = params["heading"]
 
     # Flag to indicate if vehicle is on straight away
-    on_straight: bool = False
+    on_straight: bool = True
 
     # Sets flag if vehicle is on straight away
     if ((-10 <= cur_heading) and (cur_heading <= 10)):
-        on_straight = True
+        on_straight = False
 
     # Calculate 3 markers that are at varying distances away from the center line
     quad_1 = 0.25 * track_width
@@ -30,7 +30,7 @@ def reward_function(params):
     quad_3 = 0.75 * track_width
     
     # Set reward zones to favour wide turns after straight away or tight corners in sequence
-    if on_straight or left:
+    if on_straight and left:
         if (distance_from_center <= quad_2 and distance_from_center>= quad_1):
             reward = 1
         elif (distance_from_center <= quad_3 and on_track):

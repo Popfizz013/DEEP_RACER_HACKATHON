@@ -13,6 +13,7 @@ def reward_function(params):
     distance_from_center: float = params['distance_from_center']
     left: bool = params["is_left_of_center"]
     on_track: bool= params["all_wheels_on_track"]
+    abs_steering: float = abs(params['steering_angle']) # Only need the absolute steering angle
 
     # Reports x-coordinate 
     cur_heading: float = params["heading"]
@@ -30,13 +31,8 @@ def reward_function(params):
     quad_3 = 0.75 * track_width
     
     # Set reward zones to favour wide turns after straight away or tight corners in sequence
-<<<<<<< HEAD
-    if on_straight and left:
-        if (distance_from_center <= quad_2 and distance_from_center>= quad_1):
-=======
     if ((on_straight and not left) or (left and not on_straight)):      
         if (distance_from_center <= quad_2 and distance_from_center >= quad_1):
->>>>>>> fd801ebe5743a93292c10555063973c8f49f5129
             reward = 1
         elif (distance_from_center <= quad_3 and on_track):
             reward = 0.5
@@ -46,5 +42,12 @@ def reward_function(params):
             reward = 0.25
         elif distance_from_center <= quad_2:
             reward = 0.1
+
+
+    ABS_STEERING_THRESHOLD = 15
+    
+    # Penalize reward if the car is steering too much
+    if abs_steering > ABS_STEERING_THRESHOLD:
+        reward *= 0.8
 
     return float(reward)

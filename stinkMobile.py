@@ -30,15 +30,15 @@ def reward_function(params):
     quad_3 = 0.75 * track_width
     
     # Set reward zones to favour wide turns after straight away or tight corners in sequence
-    if on_straight or left:
-        if (distance_from_center <= quad_2 and distance_from_center>= quad_1):
+    if ((on_straight and not left) or (left and not on_straight)):      
+        if (distance_from_center <= quad_2 and distance_from_center >= quad_1):
             reward = 1
         elif (distance_from_center <= quad_3 and on_track):
-            reward = 0.5 
+            reward = 0.5
     else:
         # Give higher reward if the car is closer to center line and vice versa
         if distance_from_center <= quad_1:
-            reward = 0.5
+            reward = 0.25
         elif distance_from_center <= quad_2:
             reward = 0.1
 

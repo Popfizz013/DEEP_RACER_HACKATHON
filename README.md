@@ -94,6 +94,7 @@ def reward_function(params):
 ### Strategies  
 
 #### Simulation Training  
+
 1. **Initial Testing:**  
    - The model was trained using the **AWS DeepRacer virtual simulator**, providing valuable metrics like lap times and track completion rates.  
 
@@ -104,9 +105,15 @@ def reward_function(params):
    - Optimized parameters such as learning rate and exploration vs. exploitation balance to improve adaptability and learning speed.  
 
 #### Physical Testing (November 18th)  
+
 - **Real-World Testing:**  
   - The trained model was exported to the AWS DeepRacer device for physical testing on the track.  
-  - We analyzed how environmental factors like track irregularities impacted performance.  
+  
+  - We analyzed how environmental factors like track irregularities impacted performance along with
+   actual run times. It seemed that even though the **stinkMobile** was consistent around the track 
+   through virtual simulation, the beginning of the Real World testing the car would love to go straight
+   because of the reward system implememted and the car taught itself to go straight dominantly on some 
+   test laps, the stinkMobile would take some turns well and was excellent at sticking to the left.  
 
 - **Iterative Fine-Tuning:**  
   - Based on the physical testing results, additional tweaks were made to the reward function and hyperparameters to ensure real-world readiness.  
@@ -119,6 +126,17 @@ The **stinkMobile** model achieved consistent lap times and excellent track adhe
 - A dynamic **reward function** tuned for straightaways, curves, and steering control.  
 - Continuous simulation feedback and real-world testing.  
 - Effective teamwork and collaboration.  
+---
+
+## Lessons Learned
+- **The Value of Iteration:**
+Incremental changes to the reward function helped us address specific issues without introducing new ones.
+
+- **Simulation Limitations:**
+While simulations are valuable, real-world testing revealed nuances like traction loss and hardware constraints.
+
+A clear division of tasks ensured efficiency and allowed us to leverage individual strengths.
+
 
 ---
 
@@ -143,6 +161,8 @@ The **stinkMobile** model achieved consistent lap times and excellent track adhe
 - [Advanced Guide to AWS DeepRacer](https://towardsdatascience.com/an-advanced-guide-to-aws-deepracer-2b462c37eea)  
   *Techniques for reward function design, hyperparameter tuning, and physical testing.*  
 
+
+
 ---
 
-We’re excited to showcase **stinkMobile** on race day and look forward to competing! 🚗💨  
+ 🚗💨  

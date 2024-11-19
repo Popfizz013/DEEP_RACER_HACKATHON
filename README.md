@@ -1,79 +1,148 @@
-# AWS DeepRacer Hackathon
 
-The AWS DeepRacer Hackathon hoster by the University of Victoria is an exciting opportunity for us to dive into machine learning. Through this 
-Hacathon we will explore reinforcement learning, and build an autonoumous racing model wich will be implemented on a AWS DeepRacer, a 1/18th scale
-car designed to race using AI.
 
-## Event Overview
+# AWS DeepRacer Hackathon  
 
-With AWS DeepRacer, we can train models in the cloud using Amazon SageMaker and test them on a physical track. This hackathon will challenge us to train, optimize, and compete with our very own DeepRacer models!
+The **AWS DeepRacer Hackathon**, organized by the University of Victoria, provided us with an excellent chance to examine **reinforcement learningRL** and apply it to real-world autonomous racing. Our project, **stinkMobile**, offers creative techniques to achieve efficient and consistent performance on both virtual and actual tracks.
+---
 
-### Important Dates
+## Event Overview  
 
-- **Office Hours**: November 13th  
-  *A chance to consult with mentors and clarify any questions we have before testing.*
+AWS DeepRacer challenges participants to train RL models in the cloud using **Amazon SageMaker** and deploy them on a 1/18th scale AI-powered car. The competition combines simulation training with physical track testing, culminating in a race day where all teams compete.  
 
-- **Testing**: November 18th  
-  *Our teams will get access to the track to test models and make real-world adjustments.*
 
-- **Race Day**: November 19th  
-  *The official AWS DeepRacer Race will be held on campus!*
+## Our Approach  
 
-## Project Setup
+### Reward Function  
 
-### Step 1: Setting Up AWS DeepRacer (Due November 13th)
+The reward function is the foundation of our RL model, guiding the car during training. Our latest iteration incorporates dynamic adjustments based on track characteristics, such as straightaways and curves, as well as penalties for excessive steering.  
 
-1. **Create AWS Account**  
-   Each of us needs access to AWS. We’ll set up our individual or shared accounts and apply for AWS credits if available.
+```python
+def reward_function(params):
+    '''
+    Example of rewarding the agent to follow center line
+    '''
+    # Read input parameters
+    track_width: float = params['track_width']
+    distance_from_center: float = params['distance_from_center']
+    left: bool = params["is_left_of_center"]
+    on_track: bool = params["all_wheels_on_track"]
+    abs_steering: float = abs(params['steering_angle'])  # Absolute steering angle
+    cur_heading: float = params["heading"]
 
-2. **Configure AWS DeepRacer Console**  
-   I’ll log in to the AWS DeepRacer console, go over the platform's tutorials, and get comfortable with the interface for training, evaluation, and track setup.
+    # Flag to indicate if vehicle is on a straightaway
+    on_straight: bool = False
+    if -10 <= cur_heading <= 10:
+        on_straight = True
 
-3. **Model Training and Hyperparameter Tuning**  
-   - First, I’ll define our reward function—a crucial part of our reinforcement learning model.
-   - Then, we’ll tune hyperparameters, like learning rate and exploration settings, to balance model performance and adaptability.
+    # Calculate markers at varying distances from the centerline
+    quad_1 = 0.25 * track_width
+    quad_2 = 0.50 * track_width
+    quad_3 = 0.75 * track_width
 
-### Step 2: Model Training (Due November 18th)
+    # Initialize reward
+    reward = 0
 
-1. **Pre-training Model Testing**  
-   - We’ll run initial tests on the AWS virtual simulator, checking metrics like completion time and lap consistency.
-   - Based on the simulation feedback, we’ll adjust the reward function and hyperparameters.
+    # Adjust rewards based on straightaway or curved sections
+    if on_straight:
+        if left:
+            if quad_1 <= distance_from_center <= quad_2:
+                reward = 0.8
+            elif distance_from_center <= quad_3 and on_track:
+                reward = 0.4
+        else:
+            if quad_1 <= distance_from_center <= quad_2:
+                reward = 1
+            elif distance_from_center <= quad_3 and on_track:
+                reward = 0.5
+    else:
+        if left:
+            if quad_1 <= distance_from_center <= quad_2:
+                reward = 1
+            elif distance_from_center <= quad_3 and on_track:
+                reward = 0.5
+        else:
+            if distance_from_center <= quad_1:
+                reward = 0.5
+            elif distance_from_center <= quad_2:
+                reward = 0.1
+            else:
+                reward = 1e-3
 
-2. **Fine-tuning with Simulated Data**  
-   - Insights from the simulator will help us refine the model’s performance.
-   - Together, we’ll work on any errors to improve efficiency and consistency.
+    # Penalize for excessive steering
+    ABS_STEERING_THRESHOLD = 15
+    if abs_steering > ABS_STEERING_THRESHOLD:
+        reward *= 0.8
 
-3. **Preparing for Physical Testing**  
-   We’ll export the model, ready for testing on the physical DeepRacer device on November 18th.
+    return float(reward)
+```
 
-### Step 3: Real-World Testing (November 18th)
+#### Key Improvements:
 
-On testing day, we’ll get a chance to run our models on the actual track, record performance, and make any physical-world adjustments we find necessary. The data from this session will guide our final tweaks before race day.
+1. **Straightaway Optimization:**  
+   - A flag system detects when the car is on a straight section of the track, encouraging smoother driving.  
+   - Adjusted rewards for slight deviations from the center to favor stability on straight paths.  
 
-### Step 4: Race Day (November 19th)
+2. **Dynamic Turning Rewards:**  
+   - Wider reward zones encourage strategic turns after straightaways.  
+   - Higher penalties for straying too far from the center on curves.  
 
-All teams will compete on our custom DeepRacer track! Performance will be evaluated based on completion time and track consistency, with prizes for the top finishers.
+3. **Steering Control:**  
+   - A steering penalty prevents oversteering, improving lap consistency.  
 
 ---
 
-## Team Member Roles
+### Strategies  
 
-### Liam (Me)
-- **Setup and Training**: I’ll lead the initial model setup, AWS console configuration, and reward function development.
-- **Simulation Analysis**: I’ll oversee the analysis of simulation results and handle hyperparameter adjustments.
+#### Simulation Training  
+1. **Initial Testing:**  
+   - The model was trained using the **AWS DeepRacer virtual simulator**, providing valuable metrics like lap times and track completion rates.  
 
-### Nav
-- **Reward Function Optimization**: Nav will work with me on designing and fine-tuning the reward function for optimal performance.
-- **Simulation Testing**: Nav will run and document test results, helping us make adjustments as needed.
+2. **Iterative Reward Function Refinement:**  
+   - Observed challenges, such as sharp turns and steering inefficiencies, informed adjustments to the reward function.  
 
-### Mikayla
-- **Real-World Testing Lead**: Mikayla will coordinate track access, conduct physical tests, and help adjust the model for real-world conditions.
-- **Race Strategy**: Mikayla will finalize our strategy for race day, including any last-minute model changes.
+3. **Hyperparameter Tuning:**  
+   - Optimized parameters such as learning rate and exploration vs. exploitation balance to improve adaptability and learning speed.  
+
+#### Physical Testing (November 18th)  
+- **Real-World Testing:**  
+  - The trained model was exported to the AWS DeepRacer device for physical testing on the track.  
+  - We analyzed how environmental factors like track irregularities impacted performance.  
+
+- **Iterative Fine-Tuning:**  
+  - Based on the physical testing results, additional tweaks were made to the reward function and hyperparameters to ensure real-world readiness.  
 
 ---
 
-## Resources
+## Results  
 
-We’ll refer to the [Advanced Guide to AWS DeepRacer](https://towardsdatascience.com/an-advanced-guide-to-aws-deepracer-2b462c37eea) for setup details, reward function samples, and training optimization strategies.
+The **stinkMobile** model achieved consistent lap times and excellent track adherence thanks to:  
+- A dynamic **reward function** tuned for straightaways, curves, and steering control.  
+- Continuous simulation feedback and real-world testing.  
+- Effective teamwork and collaboration.  
 
-Let’s gear up for a thrilling DeepRacer event!
+---
+
+## Team Roles  
+
+### Liam  
+- **Setup and Training:** Configured AWS DeepRacer and initialized reward functions.  
+- **Simulation Analysis:** Reviewed metrics and fine-tuned hyperparameters.  
+
+### Nav  
+- **Reward Function Optimization:** Collaborated on designing and refining reward strategies.  
+- **Simulation Testing:** Documented tests and iteratively improved the model.  
+
+### Mikayla  
+- **Real-World Testing Lead:** Coordinated physical testing and adjustments.  
+- **Race Strategy:** Designed final race strategies based on testing insights.  
+
+---
+
+## Resources  
+
+- [Advanced Guide to AWS DeepRacer](https://towardsdatascience.com/an-advanced-guide-to-aws-deepracer-2b462c37eea)  
+  *Techniques for reward function design, hyperparameter tuning, and physical testing.*  
+
+---
+
+We’re excited to showcase **stinkMobile** on race day and look forward to competing! 🚗💨  

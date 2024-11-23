@@ -2,12 +2,12 @@
 
 # AWS DeepRacer Hackathon  
 
-The **AWS DeepRacer Hackathon**, organized by the University of Victoria, provided us with an excellent chance to examine **reinforcement learningRL** and apply it to real-world autonomous racing. Our project, **stinkMobile**, offers creative techniques to achieve efficient and consistent performance on both virtual and actual tracks.
+The **AWS DeepRacer Hackathon**, organized by the University of Victoria, provided us with an excellent chance to examine **Reinforcement Learning (RL)** and apply it to real-world autonomous racing. Our project, **stinkMobile**, offers creative techniques to achieve efficient and consistent performance on both virtual and actual tracks.
 ---
 
 ## Event Overview  
 
-AWS DeepRacer challenges participants to train RL models in the cloud using **Amazon SageMaker** and deploy them on a 1/18th scale AI-powered car. The competition combines simulation training with physical track testing, culminating in a race day where all teams compete.  
+AWS DeepRacer challengend students to train RL models in the cloud using **AWS DeepRacer virtual simulator** and deploy them on a 1/18th scale AI-powered car. The competition consisted of simulation/virtual training with also physical track testing, ending in a race day where all teams compete.  
 
 
 ## Our Approach  
@@ -104,19 +104,20 @@ def reward_function(params):
 3. **Hyperparameter Tuning:**  
    - Optimized parameters such as learning rate and exploration vs. exploitation balance to improve adaptability and learning speed.  
 
+   **Simulation Video Testing**
+   -<video controls src="Recording 2024-11-18 220446.mp4" title="Title"></video>
+   -<video controls src="Recording 2024-11-18 222013.mp4" title="Title"></video>
+
 #### Physical Testing (November 18th)  
 
 - **Real-World Testing:**  
-  - The trained model was exported to the AWS DeepRacer device for physical testing on the track.  
-  
   - We analyzed how environmental factors like track irregularities impacted performance along with
-   actual run times. It seemed that even though the **stinkMobile** was consistent around the track 
-   through virtual simulation, the beginning of the Real World testing the car would love to go straight
-   because of the reward system implememted and the car taught itself to go straight dominantly on some 
-   test laps, the stinkMobile would take some turns well and was excellent at sticking to the left.  
+   actual run times. It seemed that even though the **stinkMobile** was consistent around the track through virtual simulation, the beginning of the Real World testing the car would love to go straight because of the reward system implememted and the car taught itself to go straight dominantly on some test laps, the stinkMobile would take some turns well and was excellent at sticking to the left.  
 
-- **Iterative Fine-Tuning:**  
-  - Based on the physical testing results, additional tweaks were made to the reward function and hyperparameters to ensure real-world readiness.  
+- **Challenges**  
+  - The biggest challenge we ran into was with our reward function, where on testing day we observed our AI car model loved to go straight. Due to that fact the AI car would have some difficulties in taking turns due to our reward function code as we wanted to reward our AI car a good amount therefore the car taught it self to go straight more dominantly.
+  - Another issue that occured was as we wanted to take advanatge of curves and momentun on the turns for maximizing the time on the lap
+  -An additional challenge we ran into was deciding which model to use, as we had intially tested our model 3 at the in person testing and it did not do as well as expected resulting in a significantly lower time in comparison to a model 2 where we trained which had given us the fastest lap time but had factors like: model 2 had zero live training with only 1 hour of simulation training, along with the code not being as technical as model 3.
 
 ---
 
@@ -134,9 +135,6 @@ Incremental changes to the reward function helped us address specific issues wit
 
 - **Simulation Limitations:**
 While simulations are valuable, real-world testing revealed nuances like traction loss and hardware constraints.
-
-A clear division of tasks ensured efficiency and allowed us to leverage individual strengths.
-
 
 ---
 
@@ -156,7 +154,7 @@ A clear division of tasks ensured efficiency and allowed us to leverage individu
 
 ---
 
-## Resources  
+## Resources (IEE)
 
 - [Advanced Guide to AWS DeepRacer](https://towardsdatascience.com/an-advanced-guide-to-aws-deepracer-2b462c37eea)  
   *Techniques for reward function design, hyperparameter tuning, and physical testing.*  

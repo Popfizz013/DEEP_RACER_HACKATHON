@@ -2,31 +2,28 @@
 
 # AWS DeepRacer Hackathon  
 
-The **AWS DeepRacer Hackathon**, organized by the University of Victoria, provided us with an excellent chance to examine **Reinforcement Learning (RL)** and apply it to real-world autonomous racing. Our project, **stinkMobile**, offers creative techniques to achieve efficient and consistent performance on both virtual and actual tracks.
+The **AWS DeepRacer Hackathon** organized by the University of Victoria and Amazon, provided us with an excellent chance to examine **Reinforcement Learning (RL)** and apply it to real-world autonomous racing. Our project, **stinkMobile**, offers creative techniques to achieve efficient and consistent performance on both virtual and actual tracks.
 ---
 
 ## Event Overview  
 
-AWS DeepRacer challengend students to train RL models in the cloud using **AWS DeepRacer virtual simulator** and deploy them on a 1/18th scale AI-powered car. The competition consisted of simulation/virtual training with also physical track testing, ending in a race day where all teams compete.  
+AWS DeepRacer challenges students to train RL models in the cloud using **AWS DeepRacer virtual simulator** and deploy them on a 1/18th scale AI-powered car. The competition consisted of 5 hours worth of credits in simulation/virtual training time followed by physical track testing and  ending in a race day where all teams competed for the fastest lap time.  
 
 
 ## Our Approach  
 
 ### Reward Function  
 
-The reward function is the foundation of our RL model, guiding the car during training. Our latest iteration incorporates dynamic adjustments based on track characteristics, such as straightaways and curves, as well as penalties for excessive steering.  
+The reward function is the foundation of our RL model, guiding the car during training. Our latest iteration incorporates a "stay left" strategy based on track characteristics, such as straightaways and curves, as well as penalties for excessive steering.  
 
 ```python
 def reward_function(params):
-    '''
-    Example of rewarding the agent to follow center line
-    '''
     # Read input parameters
     track_width: float = params['track_width']
     distance_from_center: float = params['distance_from_center']
     left: bool = params["is_left_of_center"]
     on_track: bool = params["all_wheels_on_track"]
-    abs_steering: float = abs(params['steering_angle'])  # Absolute steering angle
+    abs_steering: float = abs(params['steering_angle'])  
     cur_heading: float = params["heading"]
 
     # Flag to indicate if vehicle is on a straightaway
@@ -82,13 +79,12 @@ def reward_function(params):
 - A flag system detects when the car is on a straight section of the track, encouraging smoother driving.  
 - Adjusted rewards for slight deviations from the center to favor stability on straight paths.  
 
-2. **Dynamic Turning Rewards:**  
-- Wider reward zones encourage strategic turns after straightaways.  
-- Higher penalties for straying too far from the center on curves.  
+2. **Stay left Strategy:**  
+- Highest reward zone is in the 25-50% range left of the center line.  
+- Higher penalties for straying too far from center line on the right.  
 
 3. **Steering Control:**  
 - A steering penalty prevents oversteering, improving lap consistency.  
-
 ---
 
 ### Strategies  
@@ -99,7 +95,7 @@ def reward_function(params):
 - The model was trained using the **AWS DeepRacer virtual simulator**, providing valuable metrics like lap times and track completion rates.  
 
 2. **Iterative Reward Function Refinement:**  
-- Observed challenges, such as sharp turns and steering inefficiencies, informed adjustments to the reward function.  
+- Observed challenges, wide turns and steering inefficiencies, informed adjustments to the reward function.  
 
 3. **Hyperparameter Tuning:**  
 - Optimized parameters such as learning rate and exploration vs. exploitation balance to improve adaptability and learning speed.  
@@ -142,18 +138,19 @@ While simulations are valuable, real-world testing revealed nuances like tractio
 
 ### Liam  
 - Configured AWS DeepRacer and initialized our model, worked on straightaway behaviour, and zig zag mitigation reward system.  
+- Configured Git repository and managed team roles.
 - Reviewed metrics and fine-tuned hyperparameters.  
--Implemenmted last minute Fixes and bug issues.
+- Implemented last minute Fixes to bug issues discovered on testin day.
 
 ### Nav  
 - Collaborated on designing and refining reward strategies alongside the team.
 - Worked on all documentation including code documentation and README.  
--  Documented tests and iteratively improved the model.  
+- Documented tests and iteratively improved the model.  
 
 ### Mikayla  
 - Coordinated physical testing and adjustments, along with creating a zigzag function for our model.  
 - Designed final race strategies based on testing insights.  
--Collaborated on Designing and Refining reward startegies.
+- Collaborated on Designing and Refining reward strategies.
 
 
 

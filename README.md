@@ -79,15 +79,15 @@ def reward_function(params):
 #### Key Improvements:
 
 1. **Straightaway Optimization:**  
-   - A flag system detects when the car is on a straight section of the track, encouraging smoother driving.  
-   - Adjusted rewards for slight deviations from the center to favor stability on straight paths.  
+- A flag system detects when the car is on a straight section of the track, encouraging smoother driving.  
+- Adjusted rewards for slight deviations from the center to favor stability on straight paths.  
 
 2. **Dynamic Turning Rewards:**  
-   - Wider reward zones encourage strategic turns after straightaways.  
-   - Higher penalties for straying too far from the center on curves.  
+- Wider reward zones encourage strategic turns after straightaways.  
+- Higher penalties for straying too far from the center on curves.  
 
 3. **Steering Control:**  
-   - A steering penalty prevents oversteering, improving lap consistency.  
+- A steering penalty prevents oversteering, improving lap consistency.  
 
 ---
 
@@ -96,28 +96,28 @@ def reward_function(params):
 #### Simulation Training  
 
 1. **Initial Testing:**  
-   - The model was trained using the **AWS DeepRacer virtual simulator**, providing valuable metrics like lap times and track completion rates.  
+- The model was trained using the **AWS DeepRacer virtual simulator**, providing valuable metrics like lap times and track completion rates.  
 
 2. **Iterative Reward Function Refinement:**  
-   - Observed challenges, such as sharp turns and steering inefficiencies, informed adjustments to the reward function.  
+- Observed challenges, such as sharp turns and steering inefficiencies, informed adjustments to the reward function.  
 
 3. **Hyperparameter Tuning:**  
-   - Optimized parameters such as learning rate and exploration vs. exploitation balance to improve adaptability and learning speed.  
+- Optimized parameters such as learning rate and exploration vs. exploitation balance to improve adaptability and learning speed.  
 
-   **Simulation Video Testing**
-   -<video controls src="Recording 2024-11-18 220446.mp4" title="Title"></video>
-   -<video controls src="Recording 2024-11-18 222013.mp4" title="Title"></video>
+**Simulation Video Testing**
+-<video controls src="Recording 2024-11-18 220446.mp4" title="Title"></video>
+-<video controls src="Recording 2024-11-18 222013.mp4" title="Title"></video>
 
 #### Physical Testing (November 18th)  
 
 - **Real-World Testing:**  
-  - We analyzed how environmental factors like track irregularities impacted performance along with
-   actual run times. It seemed that even though the **stinkMobile** was consistent around the track through virtual simulation, the beginning of the Real World testing the car would love to go straight because of the reward system implememted and the car taught itself to go straight dominantly on some test laps, the stinkMobile would take some turns well and was excellent at sticking to the left.  
+- We analyzed how environmental factors like track irregularities impacted performance along with
+actual run times. It seemed that even though the **stinkMobile** was consistent around the track through virtual simulation, the beginning of the Real World testing the car would love to go straight because of the reward system implememted and the car taught itself to go straight dominantly on some test laps, the stinkMobile would take some turns well and was excellent at sticking to the left.  
 
 - **Challenges**  
-  - The biggest challenge we ran into was with our reward function, where on testing day we observed our AI car model loved to go straight. Due to that fact the AI car would have some difficulties in taking turns due to our reward function code as we wanted to reward our AI car a good amount therefore the car taught it self to go straight more dominantly.
-  - Another issue that occured was as we wanted to take advanatge of curves and momentun on the turns for maximizing the time on the lap
-  -An additional challenge we ran into was deciding which model to use, as we had intially tested our model 3 at the in person testing and it did not do as well as expected resulting in a significantly lower time in comparison to a model 2 where we trained which had given us the fastest lap time but had factors like: model 2 had zero live training with only 1 hour of simulation training, along with the code not being as technical as model 3.
+- The biggest challenge we ran into was with our reward function, where on testing day we observed our car model loved to go straight. Due to that fact the model car would have some difficulties in taking turns due to our reward function code as we wanted to reward our model car a good amount therefore the car taught it self to go straight more dominantly as we may have rewarded too many points.
+- Another issue that occured was as we wanted to take advanatge of curves and momentun on the turns for maximizing the time on the lap
+-An additional challenge we ran into was deciding which model to use, as we had intially tested our model 3 at the in person testing and it did not do as well as expected resulting in a significantly lower time in comparison to a model 2 where we trained which had given us the fastest lap time but had factors like: model 2 had zero live training with only 1 hour of simulation training, along with the code not being as technical as model 3.
 
 ---
 
@@ -141,16 +141,21 @@ While simulations are valuable, real-world testing revealed nuances like tractio
 ## Team Roles  
 
 ### Liam  
-- **Setup and Training:** Configured AWS DeepRacer and initialized reward functions.  
-- **Simulation Analysis:** Reviewed metrics and fine-tuned hyperparameters.  
+- Configured AWS DeepRacer and initialized our model, worked on straightaway behaviour, and zig zag mitigation reward system.  
+- Reviewed metrics and fine-tuned hyperparameters.  
+-Implemenmted last minute Fixes and bug issues.
 
 ### Nav  
-- **Reward Function Optimization:** Collaborated on designing and refining reward strategies.  
-- **Simulation Testing:** Documented tests and iteratively improved the model.  
+- Collaborated on designing and refining reward strategies alongside the team.
+- Worked on all documentation including code documentation and README.  
+-  Documented tests and iteratively improved the model.  
 
 ### Mikayla  
-- **Real-World Testing Lead:** Coordinated physical testing and adjustments.  
-- **Race Strategy:** Designed final race strategies based on testing insights.  
+- Coordinated physical testing and adjustments, along with creating a zigzag function for our model.  
+- Designed final race strategies based on testing insights.  
+-Collaborated on Designing and Refining reward startegies.
+
+
 
 ---
 
